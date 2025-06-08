@@ -30,7 +30,11 @@ def estaciones_bicis_libres(estaciones,k=5):
     for e in estaciones:
         if e.bicis_disponibles >= k:
             hay_bicis_libres.append((e.bicis_disponibles,e.nombre))
+    
     hay_bicis_libres_ordenada=sorted(hay_bicis_libres)
     return hay_bicis_libres_ordenada
-#tengo que cambiar la función para que me 
-#ordene las estaciones según el número de bicis
+
+def calcula_distancia(coordenadas1, coordenadas2):
+    x1=coordenadas1.latitud #revisar si x es latitud e y longitud o al revés
+    y1=coordenadas1.longitud
+    

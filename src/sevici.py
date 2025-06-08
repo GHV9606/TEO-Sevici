@@ -25,12 +25,12 @@ def lee_estaciones(fichero):
     return estaciones
 
 def estaciones_bicis_libres(estaciones,k=5):
-    hay_bicis_libres=[(int(),str())]
+    hay_bicis_libres=[]
 
     for e in estaciones:
-        if e.bicis_disponibles == k:
+        if e.bicis_disponibles >= k:
             hay_bicis_libres.append((e.bicis_disponibles,e.nombre))
-
-    return hay_bicis_libres
+    bicis_libres_ordenadas=hay_bicis_libres.sort
+    return bicis_libres_ordenadas
 #tengo que cambiar la función para que me 
 #ordene las estaciones según el número de bicis

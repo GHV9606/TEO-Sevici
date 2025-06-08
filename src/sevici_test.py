@@ -6,7 +6,7 @@ def test_lee_estaciones(fichero):
     for e in estaciones[:3]:
         print(e)
     print(f'las tres últimas estaciones son:')
-    for e in estaciones[:-3]:
+    for e in estaciones[-3:]:
         print(e)
 
 def main():

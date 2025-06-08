@@ -13,13 +13,12 @@ def test_lee_estaciones(fichero):
 def test_estaciones_bicis_libres(fichero,k=5):
     
     estaciones=lee_estaciones(fichero)
-    e_bicis_libres=estaciones_bicis_libres(estaciones,k)
+    e_bicis_libres_ordenadas=estaciones_bicis_libres(estaciones,k)
+    n=len(e_bicis_libres_ordenadas)
 
-    print(f'Hay estaciones con {k} o más bicis libres y las 5 primeras son:')
-    for e in e_bicis_libres[:5]:
+    print(f'Hay {n} estaciones con {k} o más bicis libres y las 5 primeras son:')
+    for e in e_bicis_libres_ordenadas[:5]:
         print(e)
-
-
 
 
 def main():

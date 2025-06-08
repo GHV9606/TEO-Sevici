@@ -30,7 +30,7 @@ def estaciones_bicis_libres(estaciones,k=5):
     for e in estaciones:
         if e.bicis_disponibles >= k:
             hay_bicis_libres.append((e.bicis_disponibles,e.nombre))
-    bicis_libres_ordenadas=hay_bicis_libres.sort
-    return bicis_libres_ordenadas
+    hay_bicis_libres_ordenada=sorted(hay_bicis_libres)
+    return hay_bicis_libres_ordenada
 #tengo que cambiar la función para que me 
 #ordene las estaciones según el número de bicis

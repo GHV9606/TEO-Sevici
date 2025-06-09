@@ -3,7 +3,7 @@ import math
 from collections import namedtuple
 import folium
 
-Coordenadas=namedtuple('Coordenadas','latitud,longitud')
+Coordenadas=namedtuple('Coordenadas','longitud,latitud')
 Estacion=namedtuple('Estacion','nombre,bornetas,bornetas_vacias,bicis_disponibles,coordenadas')
 
 
@@ -19,7 +19,7 @@ def lee_estaciones(fichero):
             bicis_disponibles=int(free_bikes)
             latitud=float(latitude)
             longitud=float(longitude)
-            coordenadas=Coordenadas(latitud,longitud)
+            coordenadas=Coordenadas(longitud,latitud)
             estacion=Estacion(nombre,bornetas,bornetas_vacias,bicis_disponibles,coordenadas)
             estaciones.append(estacion)
     return estaciones
@@ -27,14 +27,29 @@ def lee_estaciones(fichero):
 def estaciones_bicis_libres(estaciones,k=5):
     hay_bicis_libres=[]
 
-    for e in estaciones:
-        if e.bicis_disponibles >= k:
-            hay_bicis_libres.append((e.bicis_disponibles,e.nombre))
+    for est in estaciones:
+        if est.bicis_disponibles >= k:
+            hay_bicis_libres.append((est.bicis_disponibles,est.nombre))
     
-    hay_bicis_libres_ordenada=sorted(hay_bicis_libres)
+    hay_bicis_libres_ordenada=sorted(hay_bicis_libres, reverse=True)
     return hay_bicis_libres_ordenada
 
 def calcula_distancia(coordenadas1, coordenadas2):
-    x1=coordenadas1.latitud #revisar si x es latitud e y longitud o al revés
-    y1=coordenadas1.longitud
+    x1=coordenadas1.longitud
+    y1=coordenadas1.latitud
+    x2=coordenadas2.longitud
+    y2=coordenadas2.latitud
     
+    distancia = math.sqrt((x2-x1)**2 + (y2-y1)**2)
+    
+    return distancia
+
+def estaciones_cercanas(estaciones,coordenadas, k=5):
+    estaciones_cerca=[]
+    
+    for est in estaciones:
+        distancia=calcula_distancia(est.coordenadas,coordenadas)
+        estaciones_cerca.append((distancia,est.nombre,est.bicis_disponibles))
+    estaciones_cerca_orden=sorted(estaciones_cerca, key= lambda estacion_cerca : estacion_cerca[0])
+
+    return estaciones_cerca_orden[:k]

@@ -33,6 +33,9 @@ def estaciones_bicis_libres(estaciones,k=5):
     
     hay_bicis_libres_ordenada=sorted(hay_bicis_libres, reverse=True)
     return hay_bicis_libres_ordenada
+    #la solución del test en el notebook está mal,
+    # ya que da la solución si no se ordenan por 
+    # cantidad de bicis disponibles
 
 def calcula_distancia(coordenadas1, coordenadas2):
     x1=coordenadas1.longitud

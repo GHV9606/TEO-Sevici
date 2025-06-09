@@ -36,7 +36,8 @@ def main():
     test_estaciones_bicis_libres(estaciones,10)
     test_estaciones_bicis_libres(estaciones,1)
     test_estaciones_cercanas(estaciones,Coordenadas(-5.9863,37.357659))
-
+    mapa_estaciones=crea_mapa_estaciones(estaciones, funcion_color)
+    guarda_mapa(mapa_estaciones, "./out/azul.html")
 
 if __name__ == '__main__':
     main()

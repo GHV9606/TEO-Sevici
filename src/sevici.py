@@ -2,6 +2,9 @@ import csv
 import math
 from collections import namedtuple
 import folium
+import webbrowser
+import os
+
 
 Coordenadas=namedtuple('Coordenadas','longitud,latitud')
 Estacion=namedtuple('Estacion','nombre,bornetas,bornetas_vacias,bicis_disponibles,coordenadas')
@@ -53,6 +56,57 @@ def estaciones_cercanas(estaciones,coordenadas, k=5):
     for est in estaciones:
         distancia=calcula_distancia(est.coordenadas,coordenadas)
         estaciones_cerca.append((distancia,est.nombre,est.bicis_disponibles))
-    estaciones_cerca_orden=sorted(estaciones_cerca, key= lambda estacion_cerca : estacion_cerca[0])
+    
+    estaciones_cerca_orden=sorted(estaciones_cerca, 
+                                  key= lambda estacion_cerca : estacion_cerca[0])
 
     return estaciones_cerca_orden[:k]
+
+def crea_mapa(latitud,longitud,zoom=9):
+    mapa= folium.Map(location=[latitud,longitud], zoom_start=zoom)
+    # en location si falla resultado revisar si es longitud,latitud o al revés (latitud,longitud)
+    return mapa
+
+def crea_marcador(latitud, longitud, etiqueta,color):
+    marcador=folium.Marker([latitud,longitud],
+                           popup=etiqueta,
+                           icon=folium.Icon(color=color,
+                                             icon='info_sign'))
+    return marcador
+
+def media_coordenadas(estaciones):
+    latitudes=[]
+    longitudes=[]
+    
+    for est in estaciones:
+        latitudes.append(est.coordenadas.latitud)
+        longitudes.append(est.coordenadas.longitud)
+    
+    media_lat=sum(latitudes)/len(latitudes)
+    media_long=sum(longitudes)/len(longitudes)
+    coord_media=Coordenadas(media_lat,media_long)
+    #se puede hacer esto con las namedtuple?
+    
+    return coord_media
+
+def funcion_color(estacion):
+    return 'blue'
+
+def crea_mapa_estaciones(estaciones, funcion_color):
+    centro_mapa=media_coordenadas(estaciones)
+    mapa=crea_mapa(centro_mapa.latitud,
+                   centro_mapa.longitud,
+                   13)
+
+    for est in estaciones:
+        color=funcion_color(est)
+        marcador=crea_marcador(est.coordenadas.latitud,
+                               est.coordenadas.longitud,
+                               est.nombre,
+                               color)
+        marcador.add_to(mapa)
+    return mapa
+
+def guarda_mapa(mapa, ruta_fichero):
+    mapa.save(ruta_fichero)
+    webbrowser.open("file://" + os.path.realpath(ruta_fichero))

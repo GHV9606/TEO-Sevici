@@ -89,8 +89,13 @@ def media_coordenadas(estaciones):
     
     return coord_media
 
-def funcion_color(estacion):
+def color_azul(estacion):
     return 'blue'
+def color_bicis_disponibles(estacion):
+    if estacion.bicis_disponibles > 0:
+        return 'green'
+    else:
+        return 'red'
 
 def crea_mapa_estaciones(estaciones, funcion_color):
     centro_mapa=media_coordenadas(estaciones)
